@@ -8,30 +8,20 @@ import java.util.List;
 */
 
 public class Solution {
-    public static void main(String[] args) throws InterruptedException {
-        NoteThread nS1 = new NoteThread();
-        nS1.setName("Pot 1");
-        NoteThread nS2 =  new NoteThread();
-        nS2.setName("Pot 2");
-        NoteThread nS3 =  new NoteThread();
-        nS3.setName("Pot 3");
-        nS1.start();
-        nS1.join();
-        nS3.start();
-        nS3.join();
-        nS2.start();
-
+    public static void main(String[] args) {
+        new NoteThread().start();
+        new NoteThread().start();
     }
 
-    public static  class Note extends Thread {
+    public static class Note {
 
-        public volatile List<String> notes = new ArrayList<>();
+        public static final List<String> notes = new ArrayList<>();
 
-        public void addNote(String note) {
+        public static void addNote(String note) {
             notes.add(0, note);
         }
 
-        public void removeNote(String threadName) {
+        public static void removeNote(String threadName) {
             String note = notes.remove(0);
             if (note == null) {
                 System.out.println("Другая нить удалила нашу заметку");
@@ -43,22 +33,18 @@ public class Solution {
         }
     }
 
-    public static class NoteThread extends Note {
+    public static class NoteThread extends Thread {
 
         @Override
         public void run() {
-            boo();
-        }
-
-        public void boo () {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
+                Note.addNote(getName() + "-Note" + i);
                 try {
-                    notes.add(currentThread().getName() + "-Note" + i);
-                    Thread.sleep(10);
-                    removeNote(getName());
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                Note.removeNote(getName());
             }
         }
     }
