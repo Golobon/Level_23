@@ -21,8 +21,6 @@ public class Solution_2 {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
     }
