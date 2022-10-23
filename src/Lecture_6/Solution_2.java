@@ -14,7 +14,7 @@ public class Solution_2 {
             int thisProposal = proposal;
 
             while (proposal < 10) {
-                System.out.println("Сделано предложение №" + (thisProposal + 1));
+                System.out.println("Сделано предложение №:" + (thisProposal + 1));
                 proposal = ++thisProposal;
                 try {
                     Thread.sleep(100);
